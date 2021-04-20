@@ -1,0 +1,19 @@
+language: csharp
+solution: health-watcher-management-server.sln
+
+group: travis_latest
+
+dotnet: 3.1
+mono: none
+
+env:
+  global:
+    - CONFIGURATION: Release
+    - DOTNET_CLI_TELEMETRY_OPTOUT: 1
+    - DOTNET_SKIP_FIRST_TIME_EXPERIENCE: 1
+    - NET_CORE_VERSION: netcoreapp3.1
+    
+script:
+ - dotnet restore
+ - dotnet build
+ - dotnet test
