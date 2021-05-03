@@ -13,8 +13,10 @@ namespace ManagementServer.ConsoleApp.integration
         {
             byte[] key = Encoding.UTF8.GetBytes(decryptionKey);
             SHA1CryptoServiceProvider sha1CryptoServiceProvider = new SHA1CryptoServiceProvider();
-            byte[] hashedKey = new byte[16];
-            Array.Copy(sha1CryptoServiceProvider.ComputeHash(key), hashedKey, 16);
+            byte[] internalHashedKey = new byte[16];
+            byte[] sha1KeyHash = sha1CryptoServiceProvider.ComputeHash(key);
+            Array.Copy(sha1KeyHash, internalHashedKey, 16);
+            this.hashedKey = internalHashedKey;
         }
 
         public string Decrypt(string toDecrypt)
