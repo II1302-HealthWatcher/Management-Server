@@ -6,9 +6,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="model\" />
-    <Folder Include="dto\" />
-    <Folder Include="integration\" />
     <Folder Include="controller\" />
     <Folder Include="view\" />
   </ItemGroup>
