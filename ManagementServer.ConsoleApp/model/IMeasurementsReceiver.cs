@@ -1,10 +1,10 @@
-﻿using ManagementServer.ConsoleApp.integration;
-
-namespace ManagementServer.ConsoleApp.model
+﻿namespace ManagementServer.ConsoleApp.model
 {
     public interface IMeasurementsReceiver
     {
-        public bool StartServer(string listenPath);
-        public bool StopServer();
+        public void StartServer(string listenPath);
+        public void SetVerbosity(bool verbose);
+        public void StopServer();
+
     }
 }

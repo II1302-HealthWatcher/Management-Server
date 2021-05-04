@@ -10,13 +10,13 @@ namespace ManagementServer.ConsoleApp.dto
         public string MeasurementDate { get; set; }
 
         [JsonProperty("HeartPulse")]
-        public int HeartPulse { get; set; }
+        public string HeartPulse { get; set; }
 
         [JsonProperty("BloodOxygenLevel")]
-        public int BloodOxygenLevel { get; set; }
+        public string BloodOxygenLevel { get; set; }
 
         [JsonProperty("BodyTemperature")]
-        public double BodyTemperature { get; set; }
+        public string BodyTemperature { get; set; }
     }
 
     public partial class MeasurementsDTO

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace ManagementServer.ConsoleApp.integration
+﻿namespace ManagementServer.ConsoleApp.integration
 {
     public interface IDecryptionServiceProvider
     {

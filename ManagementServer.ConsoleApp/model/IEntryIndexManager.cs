@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace ManagementServer.ConsoleApp.model
+﻿namespace ManagementServer.ConsoleApp.model
 {
     public interface IEntryIndexManager
     {
