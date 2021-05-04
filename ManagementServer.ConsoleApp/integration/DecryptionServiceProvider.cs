@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Security.Cryptography;
 using System.Text;
 
@@ -22,13 +21,14 @@ namespace ManagementServer.ConsoleApp.integration
         public string Decrypt(string toDecrypt)
         {
             byte[] toDecryptArray = Convert.FromBase64String(toDecrypt);
-            RijndaelManaged aesDecryptionProvider = new RijndaelManaged();
-
-            aesDecryptionProvider.KeySize = (this.hashedKey.Length * 8);
-            aesDecryptionProvider.Key = this.hashedKey;
-            aesDecryptionProvider.IV = this.hashedKey;
-            aesDecryptionProvider.Mode = CipherMode.CBC;
-            aesDecryptionProvider.Padding = PaddingMode.PKCS7;
+            RijndaelManaged aesDecryptionProvider = new RijndaelManaged
+            {
+                KeySize = (this.hashedKey.Length * 8),
+                Key = this.hashedKey,
+                IV = this.hashedKey,
+                Mode = CipherMode.CBC,
+                Padding = PaddingMode.PKCS7
+            };
 
             ICryptoTransform aesDecryptor = aesDecryptionProvider.CreateDecryptor();
             byte[] decryptedArray = aesDecryptor.TransformFinalBlock(toDecryptArray, 0, toDecryptArray.Length);
