@@ -8,6 +8,10 @@ namespace ManagementServer.ConsoleApp.integration
     {
         private byte[] hashedKey;
 
+        /// <summary>
+        /// Initializes an instance of the <see cref="DecryptionServiceProvider"/> class.
+        /// </summary>
+        /// <param name="decryptionKey">The decryption key that will be used to decrypt encrypted messages.</param>
         public DecryptionServiceProvider(string decryptionKey)
         {
             byte[] key = Encoding.UTF8.GetBytes(decryptionKey);
@@ -18,6 +22,11 @@ namespace ManagementServer.ConsoleApp.integration
             this.hashedKey = internalHashedKey;
         }
 
+        /// <summary>
+        /// Decrypts an AES encrypted and Base64 encoded message.
+        /// </summary>
+        /// <param name="toDecrypt">The AES encrypted message encoded with Base64.</param>
+        /// <returns>A string that holds the decrypted message.</returns>
         public string Decrypt(string toDecrypt)
         {
             byte[] toDecryptArray = Convert.FromBase64String(toDecrypt);

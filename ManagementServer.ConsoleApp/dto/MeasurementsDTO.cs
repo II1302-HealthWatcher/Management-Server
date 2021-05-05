@@ -21,11 +21,20 @@ namespace ManagementServer.ConsoleApp.dto
 
     public partial class MeasurementsDTO
     {
+        /// <summary>
+        /// Deserializes a Json string to a <see cref="MeasurementsDTO"/> instance.
+        /// </summary>
+        /// <param name="json">The Json string to be used in the deserialization.</param>
+        /// <returns>A <see cref="MeasurementsDTO"/> instance.</returns>
         public static MeasurementsDTO FromJson(string json) => JsonConvert.DeserializeObject<MeasurementsDTO>(json, Converter.Settings);
     }
 
     public static class Serialize
     {
+        /// <summary>
+        /// Serializes a <see cref="MeasurementsDTO"/> instance to a Json string.
+        /// </summary>
+        /// <returns>A Json string.</returns>
         public static string ToJson(this MeasurementsDTO self) => JsonConvert.SerializeObject(self, Converter.Settings);
     }
 

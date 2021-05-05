@@ -13,6 +13,10 @@ namespace ManagementServer.ConsoleApp.model
         private string path;
         private bool dataAvailableToWrite;
 
+        /// <summary>
+        /// Initializes an instance of the <see cref="EntryIndexManager"/> class.
+        /// </summary>
+        /// <param name="path">The path to the EIM dictionary file.</param>
         public EntryIndexManager(string path)
         {
             IFormatter binaryFormatter = new BinaryFormatter();
@@ -43,6 +47,11 @@ namespace ManagementServer.ConsoleApp.model
             }, null, startTimeSpan, periodTimeSpan);
         }
 
+        /// <summary>
+        /// Gets the entry index to be used with a Firebase Realtime Database entry and increments the index of the specified device.
+        /// </summary>
+        /// <param name="deviceID">The HealthWatcher device identifier.</param>
+        /// <returns>An integer that holds the entry index for the specified device identifier.</returns>
         public int GetEntryIndexAndIncrement(string deviceID)
         {
             int currentIndex = 0;
@@ -63,6 +72,11 @@ namespace ManagementServer.ConsoleApp.model
             }
         }
 
+        /// <summary>
+        /// Resets the entry index of the specified device.
+        /// </summary>
+        /// <param name="deviceID">The HealthWatcher device identifier.</param>
+        /// <returns>A boolean indicating whether the device identifier was found and reset in the EIM dictionary or not.</returns>
         public bool ResetDeviceEntryIndex(string deviceID)
         {
             int currentIndex = 0;
