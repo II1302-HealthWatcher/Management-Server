@@ -9,6 +9,11 @@ namespace ManagementServer.ConsoleApp.integration
         private string firebaseDbToken;
         private string realtimeDatabaseLink;
 
+        /// <summary>
+        /// Initializes an instance of the <see cref="FirebaseClient"/> class.
+        /// </summary>
+        /// <param name="realtimeDatabaseLink">The link to your Firebase Realtime Database.</param>
+        /// <param name="firebaseDbToken">The Realtime Database Secret Token.</param>
         public FirebaseClient(string realtimeDatabaseLink, string firebaseDbToken)
         {
             this.httpClient = new HttpClient();
@@ -16,6 +21,12 @@ namespace ManagementServer.ConsoleApp.integration
             this.realtimeDatabaseLink = realtimeDatabaseLink;
         }
 
+        /// <summary>
+        /// Posts Json data to a Firebase Realtime Database.
+        /// </summary>
+        /// <param name="parent">The parent entry name.</param>
+        /// <param name="child">The child entry name.</param>
+        /// <param name="jsonData">The Json string that holds the child data.</param>
         public void PostData(string parent, string child, string jsonData)
         {
             HttpContent requestContent = new StringContent(jsonData, Encoding.UTF8, "text/plain");
@@ -23,6 +34,12 @@ namespace ManagementServer.ConsoleApp.integration
             this.httpClient.PostAsync(link, requestContent).GetAwaiter().GetResult();
         }
 
+        /// <summary>
+        /// Puts Json data into a Firebase Realtime Database.
+        /// </summary>
+        /// <param name="parent">The parent entry name.</param>
+        /// <param name="child">The child entry name.</param>
+        /// <param name="jsonData">The Json string that holds the child data.</param>
         public void PutData(string parent, string child, string jsonData)
         {
             HttpContent requestContent = new StringContent(jsonData, Encoding.UTF8, "text/plain");

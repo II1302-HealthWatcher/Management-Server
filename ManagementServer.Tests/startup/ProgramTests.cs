@@ -9,8 +9,8 @@ namespace ManagementServer.Tests
         public void DummyTest1()
         {
             Program program = new Program();
-            int expected = 1;
-            int result = program.dummy();
+            bool expected = true;
+            bool result = program.dummy();
             Assert.Equal(expected, result);
         }
     }

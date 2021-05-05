@@ -16,6 +16,12 @@ namespace ManagementServer.ConsoleApp.model
         private HttpListener httpListener;
         private bool verbose;
 
+        /// <summary>
+        /// Initializes an instance of the <see cref="MeasurementsReceiver"/> class.
+        /// </summary>
+        /// <param name="firebaseClient">An instance of a class that implements the <see cref="IFirebaseClient"/> interface.</param>
+        /// <param name="decryptionServiceProvider">An instance of a class that implements the <see cref="IDecryptionServiceProvider"/> interface.</param>
+        /// <param name="entryIndexManager">An instance of a class that implements the <see cref="IEntryIndexManager"/> interface.</param>
         public MeasurementsReceiver(IFirebaseClient firebaseClient, IDecryptionServiceProvider decryptionServiceProvider, IEntryIndexManager entryIndexManager)
         {
             this.firebaseClient = firebaseClient;
@@ -23,6 +29,10 @@ namespace ManagementServer.ConsoleApp.model
             this.entryIndexManager = entryIndexManager;
         }
 
+        /// <summary>
+        /// Starts the HTTP server which will receive the measurements from the HealthWatcher device simulator.
+        /// </summary>
+        /// <param name="listenPath">The fully qualified listen path following the format "http://IP:PORT/".</param>
         public void StartServer(string listenPath)
         {
             this.httpListener = new HttpListener();
@@ -31,11 +41,18 @@ namespace ManagementServer.ConsoleApp.model
             this.httpListener.BeginGetContext(new AsyncCallback(ListenerCallback), httpListener);
         }
 
+        /// <summary>
+        /// Stops the HTTP server which is receiving the measurements from the HealthWatcher device simulator.
+        /// </summary>
         public void StopServer()
         {
             this.httpListener.Stop();
         }
 
+        /// <summary>
+        /// Sets the verbosity of the measurements receiver.
+        /// </summary>
+        /// <param name="verbose">A boolean indicating whether to print out the received data from the HealthWatcher device simulator or not.</param>
         public void SetVerbosity(bool verbose)
         {
             this.verbose = verbose;
