@@ -6,12 +6,12 @@
         /// Starts the HTTP server which will receive the measurements from the HealthWatcher device simulator.
         /// </summary>
         /// <param name="listenPath">The fully qualified listen path following the format "http://IP:PORT/".</param>
-        public void StartServer(string listenPath);
+        public bool StartServer(string listenPath);
 
         /// <summary>
         /// Stops the HTTP server which is receiving the measurements from the HealthWatcher device simulator.
         /// </summary>
-        public void StopServer();
+        public bool StopServer();
 
         /// <summary>
         /// Sets the verbosity of the measurements receiver.
