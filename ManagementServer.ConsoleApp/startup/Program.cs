@@ -1,4 +1,5 @@
 ﻿using ManagementServer.ConsoleApp.integration;
+using ManagementServer.ConsoleApp.loghandler;
 using ManagementServer.ConsoleApp.model;
 using System;
 
@@ -29,7 +30,9 @@ namespace ManagementServer.ConsoleApp
             IEntryIndexManager entryIndexManager = new EntryIndexManager(EIMDictionaryPath);
             IDecryptionServiceProvider decryptionServiceProvider = new DecryptionServiceProvider(decryptionKey);
             IFirebaseClient firebaseClient = new FirebaseClient(realtimeDatabaseLink, firebaseDbToken);
-            IMeasurementsReceiver measurementsReceiver = new MeasurementsReceiver(firebaseClient, decryptionServiceProvider, entryIndexManager);
+            IExceptionLogger devLogger = new DeveloperLogger();
+            IExceptionLogger userLogger = new UserLogger();
+            IMeasurementsReceiver measurementsReceiver = new MeasurementsReceiver(firebaseClient, decryptionServiceProvider, entryIndexManager, devLogger, userLogger);
             measurementsReceiver.StartServer("http://192.168.0.106:1234/");
             measurementsReceiver.SetVerbosity(true);
             Console.ReadLine();
