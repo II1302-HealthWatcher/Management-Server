@@ -15,7 +15,6 @@ namespace ManagementServer.ConsoleApp.model
         private IDecryptionServiceProvider decryptionServiceProvider;
         private IEntryIndexManager entryIndexManager;
         private IExceptionLogger devLogger;
-        private IExceptionLogger userLogger;
         private HttpListener httpListener;
         private string userAgent;
         private bool verbose;
@@ -27,14 +26,13 @@ namespace ManagementServer.ConsoleApp.model
         /// <param name="decryptionServiceProvider">An instance of a class that implements the <see cref="IDecryptionServiceProvider"/> interface.</param>
         /// <param name="entryIndexManager">An instance of a class that implements the <see cref="IEntryIndexManager"/> interface.</param>
         /// <param name="devLogger">An instance of a class that implements the <see cref="IExceptionLogger"/> interface.</param>
-        /// <param name="userLogger">An instance of a class that implements the <see cref="IExceptionLogger"/> interface.</param>
-        public MeasurementsReceiver(IFirebaseClient firebaseClient, IDecryptionServiceProvider decryptionServiceProvider, IEntryIndexManager entryIndexManager, IExceptionLogger devLogger, IExceptionLogger userLogger)
+        public MeasurementsReceiver(IFirebaseClient firebaseClient, IDecryptionServiceProvider decryptionServiceProvider, IEntryIndexManager entryIndexManager, IExceptionLogger devLogger)
         {
             this.firebaseClient = firebaseClient;
             this.decryptionServiceProvider = decryptionServiceProvider;
             this.entryIndexManager = entryIndexManager;
             this.devLogger = devLogger;
-            this.userLogger = userLogger;
+            this.verbose = false;
             this.userAgent = "HealthWatcher / 1.0";
         }
 
@@ -42,8 +40,7 @@ namespace ManagementServer.ConsoleApp.model
         /// Starts the HTTP server which will receive the measurements from the HealthWatcher device simulator.
         /// </summary>
         /// <param name="listenPath">The fully qualified listen path following the format "http://IP:PORT/".</param>
-        /// <returns>A boolean indicating whether the server was started successfully or not.</returns>
-        public bool StartServer(string listenPath)
+        public void StartServer(string listenPath)
         {
             try
             {
@@ -51,32 +48,27 @@ namespace ManagementServer.ConsoleApp.model
                 this.httpListener.Prefixes.Add(listenPath);
                 this.httpListener.Start();
                 this.httpListener.BeginGetContext(new AsyncCallback(ListenerCallback), httpListener);
-                return true;
             }
             catch (Exception exception)
             {
                 this.devLogger.Log(exception);
-                this.userLogger.Log(exception);
-                return false;
+                throw exception;
             }
         }
 
         /// <summary>
         /// Stops the HTTP server which is receiving the measurements from the HealthWatcher device simulator.
         /// </summary>
-        /// <returns>A boolean indicating whether the server was stopped successfully or not.</returns>
-        public bool StopServer()
+        public void StopServer()
         {
             try
             {
                 this.httpListener.Stop();
-                return true;
             }
             catch (Exception exception)
             {
                 this.devLogger.Log(exception);
-                this.userLogger.Log(exception);
-                return false;
+                throw exception;
             }
         }
 
@@ -105,7 +97,6 @@ namespace ManagementServer.ConsoleApp.model
                 string userAgent = request.Headers.GetValues("User-Agent")[0];
                 if (validateUseragent(userAgent))
                 {
-                    Console.WriteLine(userAgent);
                     if(processMeasurments(requestBody))
                     {
                         reportValidRequest(requestBody, response);
@@ -126,7 +117,6 @@ namespace ManagementServer.ConsoleApp.model
             catch (Exception exception)
             {
                 this.devLogger.Log(exception);
-                this.userLogger.Log(exception);
             }
         }
 
@@ -192,7 +182,6 @@ namespace ManagementServer.ConsoleApp.model
             catch (Exception exception)
             {
                 this.devLogger.Log(exception);
-                this.userLogger.Log(exception);
                 return false;
             }
         }
@@ -218,7 +207,6 @@ namespace ManagementServer.ConsoleApp.model
             catch (Exception exception)
             {
                 this.devLogger.Log(exception);
-                this.userLogger.Log(exception);
                 return null;
             }
         }
@@ -248,7 +236,6 @@ namespace ManagementServer.ConsoleApp.model
             catch (Exception exception)
             {
                 this.devLogger.Log(exception);
-                this.userLogger.Log(exception);
                 return null;
             }
         }
@@ -263,7 +250,6 @@ namespace ManagementServer.ConsoleApp.model
             catch (Exception exception)
             {
                 this.devLogger.Log(exception);
-                this.userLogger.Log(exception);
                 return null;
             }
         }
@@ -286,7 +272,6 @@ namespace ManagementServer.ConsoleApp.model
             catch (Exception exception)
             {
                 this.devLogger.Log(exception);
-                this.userLogger.Log(exception);
             }
         }
     }
