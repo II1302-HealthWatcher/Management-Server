@@ -20,7 +20,7 @@ namespace ManagementServer.ConsoleApp.loghandler
             try
             {
                 DateTime currentDate = DateTime.Now;
-                string currentDateTimeFormatted = currentDate.ToString("yyyy-MM-dd hh:mm:ss");
+                string currentDateTimeFormatted = currentDate.ToString("yyyy-MM-dd HH:mm:ss");
                 string exceptionTypeAndMessage = $"{currentDateTimeFormatted} - { exceptionToLog.GetType().Name } : { exceptionToLog.Message}";
                 string logContent = exceptionTypeAndMessage + Environment.NewLine;
                 Console.WriteLine("=======================================");

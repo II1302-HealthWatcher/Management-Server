@@ -1,7 +1,7 @@
-﻿using ManagementServer.ConsoleApp.integration;
+﻿using ManagementServer.ConsoleApp.controller;
+using ManagementServer.ConsoleApp.integration;
 using ManagementServer.ConsoleApp.loghandler;
-using ManagementServer.ConsoleApp.model;
-using System;
+using ManagementServer.ConsoleApp.view;
 
 namespace ManagementServer.ConsoleApp
 {
@@ -20,23 +20,20 @@ namespace ManagementServer.ConsoleApp
         /// The main method that initializes the needed instances and starts the HealthWatcher Management Server.
         /// </summary>
         /// <param name="args">The program expects no command line arguments.</param>
-        static void Main(string[] args)
+        private static void Main(string[] args)
         {
             string firebaseDbToken = "KXdQfwlci2Cytgg8tOJzUAJA0zgK9tflQ5Qit720";
             string realtimeDatabaseLink = "https://healthwatcher-f04bf-default-rtdb.firebaseio.com";
             string decryptionKey = "HealthWatcherKey";
             string EIMDictionaryPath = "EIMDictionary.bin";
 
-            IEntryIndexManager entryIndexManager = new EntryIndexManager(EIMDictionaryPath);
             IDecryptionServiceProvider decryptionServiceProvider = new DecryptionServiceProvider(decryptionKey);
             IFirebaseClient firebaseClient = new FirebaseClient(realtimeDatabaseLink, firebaseDbToken);
             IExceptionLogger devLogger = new DeveloperLogger();
             IExceptionLogger userLogger = new UserLogger();
-            IMeasurementsReceiver measurementsReceiver = new MeasurementsReceiver(firebaseClient, decryptionServiceProvider, entryIndexManager, devLogger, userLogger);
-            measurementsReceiver.StartServer("http://192.168.0.106:1234/");
-            measurementsReceiver.SetVerbosity(true);
-            Console.ReadLine();
-            measurementsReceiver.StopServer();
+            Controller controller = new Controller(EIMDictionaryPath, firebaseClient, decryptionServiceProvider, devLogger);
+            MainView mainView = new MainView(controller, userLogger);
+            mainView.StartView();
         }
     }
 }
