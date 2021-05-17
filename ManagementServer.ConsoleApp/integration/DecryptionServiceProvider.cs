@@ -23,6 +23,29 @@ namespace ManagementServer.ConsoleApp.integration
         }
 
         /// <summary>
+        /// Encrypts a message using AES and encodes the output using Base64.
+        /// </summary>
+        /// <param name="toEncrypt">The message to be encrypted.</param>
+        /// <returns>A string that holds the encrypted and Base64 encoded message.</returns>
+        public string Encrypt(string toEncrypt)
+        {
+            byte[] toEncryptArray = Encoding.UTF8.GetBytes(toEncrypt);
+
+            RijndaelManaged aesEncryptionProvider = new RijndaelManaged
+            {
+                KeySize = (this.hashedKey.Length * 8),
+                Key = this.hashedKey,
+                IV = this.hashedKey,
+                Mode = CipherMode.CBC,
+                Padding = PaddingMode.PKCS7
+            };
+
+            ICryptoTransform aesEncryptor = aesEncryptionProvider.CreateEncryptor();
+            byte[] encryptedArray = aesEncryptor.TransformFinalBlock(toEncryptArray, 0, toEncryptArray.Length);
+            return Convert.ToBase64String(encryptedArray);
+        }
+
+        /// <summary>
         /// Decrypts an AES encrypted and Base64 encoded message.
         /// </summary>
         /// <param name="toDecrypt">The AES encrypted message encoded with Base64.</param>
@@ -43,5 +66,7 @@ namespace ManagementServer.ConsoleApp.integration
             byte[] decryptedArray = aesDecryptor.TransformFinalBlock(toDecryptArray, 0, toDecryptArray.Length);
             return Encoding.UTF8.GetString(decryptedArray);
         }
+
+        
     }
 }

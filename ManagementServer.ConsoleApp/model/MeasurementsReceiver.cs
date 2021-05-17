@@ -95,22 +95,22 @@ namespace ManagementServer.ConsoleApp.model
                 StreamReader requestBodyReader = new StreamReader(requestBodyStream, requestEncoding);
                 string requestBody = requestBodyReader.ReadToEnd();
                 string userAgent = request.Headers.GetValues("User-Agent")[0];
-                if (validateUseragent(userAgent))
+                if (ValidateUseragent(userAgent))
                 {
-                    if(processMeasurments(requestBody))
+                    if(ProcessMeasurments(requestBody))
                     {
-                        reportValidRequest(requestBody, response);
+                        ReportValidRequest(requestBody, response);
                     }
                     else
                     {
-                        reportInvalidRequest("Invalid request fields!", response);
+                        ReportInvalidRequest("Invalid request fields!", response);
                         throw new Exception("Invalid request fields!");
                     }
 
                 }
                 else
                 {
-                    reportInvalidRequest("Invalid User-Agent!", response);
+                    ReportInvalidRequest("Invalid User-Agent!", response);
                     throw new Exception("Invalid User-Agent!");
                 }
             }
@@ -120,7 +120,7 @@ namespace ManagementServer.ConsoleApp.model
             }
         }
 
-        private void reportValidRequest(string requestBody, HttpListenerResponse response)
+        private void ReportValidRequest(string requestBody, HttpListenerResponse response)
         {
             string responseString = "OK";
             byte[] buffer = Encoding.UTF8.GetBytes(responseString);
@@ -130,7 +130,7 @@ namespace ManagementServer.ConsoleApp.model
             outputStream.Close();
         }
 
-        private void reportInvalidRequest(string message, HttpListenerResponse response)
+        private void ReportInvalidRequest(string message, HttpListenerResponse response)
         {
             string responseString = message;
             byte[] buffer = Encoding.UTF8.GetBytes(responseString);
@@ -140,7 +140,7 @@ namespace ManagementServer.ConsoleApp.model
             outputStream.Close();
         }
 
-        private bool validateUseragent(string userAgent)
+        private bool ValidateUseragent(string userAgent)
         {
             if (userAgent.Equals(this.userAgent))
             {
@@ -152,7 +152,7 @@ namespace ManagementServer.ConsoleApp.model
             }
         }
 
-        private bool validateRequestFields(string[] measurementsDataArray)
+        private bool ValidateRequestFields(string[] measurementsDataArray)
         {
             if (measurementsDataArray.Length == 6)
             {
@@ -161,13 +161,13 @@ namespace ManagementServer.ConsoleApp.model
             return true;
         }
 
-        private bool processMeasurments(string encryptedBody)
+        private bool ProcessMeasurments(string encryptedBody)
         {
             try
             {
-                string decryptedBody = processEncryptedResponse(encryptedBody);
-                string deviceID = extractDeviceID(decryptedBody);
-                MeasurementsDTO measurementsDTO = generateMeasurementsDTO(decryptedBody);
+                string decryptedBody = ProcessEncryptedResponse(encryptedBody);
+                string deviceID = ExtractDeviceID(decryptedBody);
+                MeasurementsDTO measurementsDTO = GenerateMeasurementsDTO(decryptedBody);
                 if(measurementsDTO == null)
                 {
                     return false;
@@ -194,7 +194,7 @@ namespace ManagementServer.ConsoleApp.model
             Console.WriteLine();
         }
 
-        private string extractDeviceID(string input)
+        private string ExtractDeviceID(string input)
         {
             try
             {
@@ -211,7 +211,7 @@ namespace ManagementServer.ConsoleApp.model
             }
         }
 
-        private MeasurementsDTO generateMeasurementsDTO(string input)
+        private MeasurementsDTO GenerateMeasurementsDTO(string input)
         {
             try
             {
@@ -221,7 +221,7 @@ namespace ManagementServer.ConsoleApp.model
                 + "Heart Pulse Rate: (.*?)" + "\r\n";
                 RegexOptions options = RegexOptions.Multiline;
                 string[] measurementsDataArray = Regex.Split(input, pattern, options);
-                if (validateRequestFields(measurementsDataArray))
+                if (ValidateRequestFields(measurementsDataArray))
                 {
                     MeasurementsDTO measurementsDTO = new MeasurementsDTO();
                     measurementsDTO.MeasurementDate = measurementsDataArray[1];
@@ -240,7 +240,7 @@ namespace ManagementServer.ConsoleApp.model
             }
         }
 
-        private string processEncryptedResponse(string encryptedData)
+        private string ProcessEncryptedResponse(string encryptedData)
         {
             try
             {

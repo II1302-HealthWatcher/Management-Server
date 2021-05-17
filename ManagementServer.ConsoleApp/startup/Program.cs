@@ -11,7 +11,7 @@ namespace ManagementServer.ConsoleApp
         /// A dummy method to be used with the xUnit tests.
         /// </summary>
         /// <returns>A boolean that holds the value true.</returns>
-        public bool dummy()
+        public bool Dummy()
         {
             return true;
         }

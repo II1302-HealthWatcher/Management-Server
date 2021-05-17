@@ -21,34 +21,34 @@ namespace ManagementServer.ConsoleApp.view
             Console.WriteLine("*** HealthWatcher Management Server ***");
             Console.WriteLine("***************************************");
             Console.WriteLine();
-            printMenu();
+            PrintMenu();
         }
 
-        private void printMenu()
+        private void PrintMenu()
         {
             Console.WriteLine("Please enter the number of the desired action:");
             Console.WriteLine("1. Start the management server");
             Console.WriteLine("2. Make the management server print the data received from the sensor device simulation");
             Console.WriteLine("3. Exit the program");
-            parseUserInput();
+            ParseUserInput();
         }
 
-        private void parseUserInput()
+        private void ParseUserInput()
         {
             try
             {
                 string input = Console.ReadLine();
                 int userInput = int.Parse(input);
-                processUserInput(userInput);
+                ProcessUserInput(userInput);
             }
             catch (Exception)
             {
                 Console.WriteLine("Malformed user input, please try again!");
-                printMenu();
+                PrintMenu();
             }
         }
 
-        private void processUserInput(int input)
+        private void ProcessUserInput(int input)
         {
             try
             {
@@ -68,7 +68,7 @@ namespace ManagementServer.ConsoleApp.view
 
                     default:
                         Console.WriteLine("Malformed user input, please try again!");
-                        printMenu();
+                        PrintMenu();
                         break;
                 }
             }
@@ -93,7 +93,7 @@ namespace ManagementServer.ConsoleApp.view
         {
             Console.WriteLine("The managment server is verbose now!");
             this.controller.SetVerbosity(true);
-            printMenu();
+            PrintMenu();
         }
 
         private void StopServer()
