@@ -10,7 +10,7 @@ namespace ManagementServer.Tests
         {
             Program program = new Program();
             bool expected = true;
-            bool result = program.dummy();
+            bool result = program.Dummy();
             Assert.Equal(expected, result);
         }
     }
